@@ -47,8 +47,8 @@ int accept_connection(int server_socket_fd) {
     return client_socket_fd;
 }
 
-void receive_message(int socket_fd, char* buffer) {
-    if (recv(socket_fd, buffer, sizeof(buffer), 0) == -1) {
+void receive_message(int socket_fd, char* buffer, int buffer_length) {
+    if (recv(socket_fd, buffer, buffer_length, 0) == -1) {
         perror("recv");
         exit(EXIT_FAILURE);
     }

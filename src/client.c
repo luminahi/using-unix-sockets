@@ -16,8 +16,8 @@ int main(int argc, char* argv[]) {
     create_socket(&socket_fd, &address, "/tmp/mysocket");
     connect_socket(socket_fd, &address);
 
-    send_message(socket_fd, buffer, argv[1]);
-    receive_message(socket_fd, buffer);
+    send_message(socket_fd, buffer, "client message");
+    receive_message(socket_fd, buffer, sizeof(buffer));
 
     printf("Server message: %s\n", buffer);
     close(socket_fd);

@@ -11,7 +11,7 @@ void listen_socket(int);
 
 int accept_connection(int);
 
-void receive_message(int, char*);
+void receive_message(int, char*, int);
 
 void send_message(int, char*, char*);
 

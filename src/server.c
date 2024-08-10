@@ -20,11 +20,11 @@ int main(int argc, char* argv[]) {
     listen_socket(server_socket_fd);
     client_socket_fd = accept_connection(server_socket_fd);
 
-    receive_message(client_socket_fd, buffer);    
+    receive_message(client_socket_fd, buffer, sizeof(buffer));
     
     printf("Client message: %s\n", buffer);
     
-    send_message(client_socket_fd, buffer, argv[1]);
+    send_message(client_socket_fd, buffer, "server message");
 
     close(client_socket_fd);
     close(server_socket_fd);

@@ -8,16 +8,18 @@
 #include "socket.h"
 
 int main(int argc, char* argv[]) {
+    if (argc <= 1) return 0;
 
     char buffer[128];
+
     int socket_fd;
     struct sockaddr_un address;
 
     create_socket(&socket_fd, &address, "/tmp/mysocket");
     connect_socket(socket_fd, &address);
 
-    send_message(socket_fd, buffer, "client message");
-    receive_message(socket_fd, buffer, sizeof(buffer));
+    send_message(socket_fd, buffer, argv[1], strlen(argv[1]));
+    receive_message(socket_fd, buffer, 128);
 
     printf("Server message: %s\n", buffer);
     close(socket_fd);

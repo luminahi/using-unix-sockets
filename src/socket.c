@@ -54,10 +54,10 @@ void receive_message(int socket_fd, char* buffer, int buffer_length) {
     }
 }
 
-void send_message(int socket_fd, char* buffer, char* message) {
+void send_message(int socket_fd, char* buffer, char* message, int message_length) {
     strcpy(buffer, message ? message : "default message");
     
-    if (send(socket_fd, buffer, strlen(buffer), 0) == -1) {
+    if (send(socket_fd, buffer, message_length, 0) == -1) {
         perror("send");
         exit(EXIT_FAILURE);
     }

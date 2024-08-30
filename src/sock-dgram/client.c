@@ -4,15 +4,18 @@
 #include <string.h>
 #include <unistd.h>
 
+#define FILEPATH "/tmp/custom.sock"
+#define BUFFER_SIZE 128
+
 int main(int argc, char* argv[]) {
     int socket_fd;
     struct sockaddr_un addr;
     int addr_len;
-    char buffer[255];
+    char buffer[BUFFER_SIZE];
 
     memset(&addr, 0, sizeof(struct sockaddr_un));
     addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, "msg.sock", sizeof(addr.sun_path) - 1);
+    strncpy(addr.sun_path, FILEPATH, sizeof(addr.sun_path) - 1);
 
     const char* message = "cool message";
     strncpy(buffer, message, strlen(message));

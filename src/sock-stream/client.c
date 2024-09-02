@@ -1,21 +1,22 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/socket.h>
 #include "socket.h"
 
 #define FILEPATH "/tmp/custom.sock"
 #define BUFFER_SIZE 128
 
-void publish(char* file_path, int buffer_size, char* message) {
+void publish(char* filepath, int buffer_size, char* message) {
     char buffer[buffer_size];
     int socket_fd;
     struct sockaddr_un address;
 
-    create_socket(&socket_fd, &address, file_path);
+    socket_fd = assert_socket(filepath, SOCK_STREAM, &address);
     connect_socket(socket_fd, &address);
 
-    send_message(socket_fd, buffer, message, strlen(message));
-    receive_message(socket_fd, buffer, buffer_size);
+    send_message_stream(socket_fd, buffer, message, strlen(message));
+    receive_message_stream(socket_fd, buffer, buffer_size);
 
     printf("Server message: %s\n", buffer);
     close(socket_fd);

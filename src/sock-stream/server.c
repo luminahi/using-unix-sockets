@@ -23,8 +23,7 @@ void handle_sigint(int sig) {
 }
 
 void start_server(char* filepath, int buffer_size) {
-    char client_buffer[buffer_size];
-    char server_buffer[buffer_size];
+    char buffer[buffer_size];
     
     int server_socket_fd;
     int client_socket_fd;
@@ -45,17 +44,14 @@ void start_server(char* filepath, int buffer_size) {
 
     while (true) {
         client_socket_fd = accept_connection(server_socket_fd);
-        receive_message_stream(client_socket_fd, client_buffer, buffer_size);
+        int num_bytes = receive_message_stream(client_socket_fd, buffer, buffer_size);
 
-        printf("Client message: %s\n", client_buffer);
-        memset(client_buffer, 0, BUFFER_SIZE);
+        buffer[num_bytes] = '\0';
+        printf("Client message: %s\n", buffer);
         
-        send_message_stream(client_socket_fd, server_buffer, server_message, message_length);
+        send_message_stream(client_socket_fd, server_message, message_length);
         close(client_socket_fd);
     }
-    
-    close(server_socket_fd);
-    unlink(filepath);
 }
 
 int main(int argc, char* argv[]) {

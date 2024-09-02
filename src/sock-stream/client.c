@@ -15,7 +15,7 @@ void publish(char* filepath, int buffer_size, char* message) {
     socket_fd = assert_socket(filepath, SOCK_STREAM, &address);
     connect_socket(socket_fd, &address);
 
-    send_message_stream(socket_fd, buffer, message, strlen(message));
+    send_message_stream(socket_fd, message, strlen(message));
     receive_message_stream(socket_fd, buffer, buffer_size);
 
     printf("Server message: %s\n", buffer);

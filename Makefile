@@ -1,10 +1,11 @@
 # Variables
 CC = gcc
 CFLAGS = -c
-OBJ = ./src/socket.o
-CLIENT_SRC = ./src/client.c
-SERVER_SRC = ./src/server.c
-SOCKET_SRC = ./src/socket.c
+OBJ = socket.o
+CLIENT_SRC = ./src/sock-stream/client.c
+SERVER_SRC = ./src/sock-stream/server.c
+SOCKET_SRC = ./src/lib/socket.c
+SOCKET_MOD = ./src/lib
 CLIENT_BIN = client
 SERVER_BIN = server
 
@@ -17,11 +18,11 @@ $(OBJ): $(SOCKET_SRC)
 
 # Build client executable
 $(CLIENT_BIN): $(CLIENT_SRC) $(OBJ)
-	$(CC) $^ -o $@
+	$(CC) $^ -o $@ -I $(SOCKET_MOD)
 
 # Build server executable
 $(SERVER_BIN): $(SERVER_SRC) $(OBJ)
-	$(CC) $^ -o $@
+	$(CC) $^ -o $@ -I $(SOCKET_MOD)
 
 # Clean target to remove generated files
 clean:

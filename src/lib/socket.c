@@ -52,11 +52,14 @@ int accept_connection(int server_socket_fd) {
     return client_socket_fd;
 }
 
-void receive_message_stream(int socket_fd, char* buffer, int buffer_length) {
-    if (recv(socket_fd, buffer, buffer_length, 0) == -1) {
+int receive_message_stream(int socket_fd, char* buffer, int buffer_length) {
+    int num_bytes = recv(socket_fd, buffer, buffer_length, 0);
+    if (num_bytes == -1) {
         perror("recv");
         exit(EXIT_FAILURE);
     }
+
+    return num_bytes;
 }
 
 int receive_message_dgram(int socket_fd, char* buffer, int buffer_size, struct sockaddr_un* addr, int* addr_len) {
@@ -69,16 +72,16 @@ int receive_message_dgram(int socket_fd, char* buffer, int buffer_size, struct s
     return num_bytes;
 }
 
-void send_message_stream(int socket_fd, char* buffer, char* message, int message_length) {
-    strcpy(buffer, message ? message : "default message");
-    
-    if (send(socket_fd, buffer, message_length, 0) == -1) {
+void send_message_stream(int socket_fd, char* message, int message_length) {    
+    if (send(socket_fd, message, message_length, 0) == -1) {
         perror("send");
         exit(EXIT_FAILURE);
     }
 }
 
 void send_message_dgram(int socket_fd, char* buffer, struct sockaddr* addr) {
-    sendto(socket_fd, buffer, strlen(buffer), 0, (struct sockaddr*)addr, sizeof(struct sockaddr));
-    perror("sendto");
+    if (sendto(socket_fd, buffer, strlen(buffer), 0, (struct sockaddr*)addr, sizeof(struct sockaddr)) == -1) {
+        perror("sendto");
+        exit(EXIT_FAILURE);
+    }
 }

@@ -79,8 +79,8 @@ void send_message_stream(int socket_fd, char* message, int message_length) {
     }
 }
 
-void send_message_dgram(int socket_fd, char* buffer, struct sockaddr* addr) {
-    if (sendto(socket_fd, buffer, strlen(buffer), 0, (struct sockaddr*)addr, sizeof(struct sockaddr)) == -1) {
+void send_message_dgram(int socket_fd, char* message, struct sockaddr_un* addr) {
+    if (sendto(socket_fd, message, strlen(message), 0, (struct sockaddr*)addr, sizeof(struct sockaddr_un)) == -1) {
         perror("sendto");
         exit(EXIT_FAILURE);
     }

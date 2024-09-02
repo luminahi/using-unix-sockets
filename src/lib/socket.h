@@ -17,4 +17,6 @@ int receive_message_dgram(int, char*, int, struct sockaddr_un*, int*);
 
 void send_message_stream(int, char*, int);
 
+void send_message_dgram(int, char*, struct sockaddr_un*);
+
 #endif
